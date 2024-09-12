@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  nginx:
+    ports:
+      - "3000:80"
+  node-app:
+    build:
+      context: .
+      args:
+        NODE_ENV: development
+    volumes:
+      - ./:/app # Mount the current directory to /app in the container (read-only)
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - MONGO_USER=amirhossein
+      - MONGO_PASSWORD=amgh1383
+      - SESSION_SECRET=secret
+      - JWT_SECRET=jwt_secret
+    command: npm run dev

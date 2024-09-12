@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+  # docker pull node
+  node-app:
+    build: .
+    # ports:
+    #   - "3000:3000"
+    environment:
+      - PORT=3000
+    depends_on:
+      - mongo
+    # first mongo run then node-app 
+    # docker pull mongo
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=amirhossein
+      - MONGO_INITDB_ROOT_PASSWORD=amgh1383
+    volumes:
+      - mongo-db:/data/db
+  redis:
+    image: redis
+
+volumes:
+  mongo-db:
